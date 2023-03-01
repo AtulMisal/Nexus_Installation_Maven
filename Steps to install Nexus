@@ -1,0 +1,44 @@
+### Nexus Setup --
+     For nexus setup we require minimum 4 GB Memory.
+	 By default port 8081 is opened for nexus if you want to change you can change it through files.
+	 By going inside vi nexus*/etc/nexus-default.properties
+	 To start the nexus cd nexus*/bin -- ./nexus.start
+Steps --
+Create one Ubuntu Machine through AWS/GCP.
+  1.We need java installed on this machine if not install by (apt install opejdk-11-jdk)	
+  2.Download  Nexus package from website (https://download.sonatype.com/nexus/3/nexus-3.47.1-01-unix.tar.gz)
+  3.This package should be downloaded inside /opt directory as it is the directory for all package.
+  4.Unzip/Untar the package.
+  5.The unziped package will consistes of two directories.
+     1.nexus * () Need to go inside)
+	   2.sonatype-work
+  6.Nexus need its own user so we will create one nexus user as
+	  1.useradd nexus
+	  2.We have to add this user into sudoers file under root with NOPASSWD=ALL permission
+	  3.Now change the ownership of above files (Step 5) by -- 
+		  1.chown nexus:nexus nexus*
+		  2.chown nexus:nexus sonatype-work
+  7.Now open this file -- sudo vi  /app/nexus/bin/nexus.rc	
+  Uncomment the line -- run_as_user="nexus"
+  8.Now open nexus through web by giving ip of your server with port 8081(You have to open it throughsecurity group-inbound rule)
+  Ex.- ip:8081
+  9.It will open nexus -- give credentials as admin and password which is stored in nexus-data/admin-password
+  10.By default you are logged in this as admin in this you can also create users assign them roles also use LDAP
+
+---------------------------------------------------------------------------------------------------
+Now we will install maven here and deploy given project so that the war file will be created.
+But in maven maven uses it's own repo to deploy this app so will chage some file configuration as --
+  In POM.xml add these lines after </build>
+  <distributionManagement>
+    <snapshotRepository>
+      <id>nexusdeploymentrepo</id>
+      <url>Provide Snapshot link from nexus</url> #Here add from nexus
+    </snapshotRepository>
+	<repository>
+	  <id>nexusdeploymentrepo</id>
+      <url>Provide Release link from nexus</url> #Here add from nexus
+    </repository> 
+  </distributionManagement>	
+--------------------------------------------------------------------------------------------
+Now go to cd ~ /.m2
+create one file named settings.xml. copy settings.xml file from (https://github.com/AtulMisal)
