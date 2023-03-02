@@ -21,7 +21,7 @@
     <server>
       <id>nexusdeploymentrepo</id>
       <username>admin</username>
-      <password>admin</password> # Add your username and password
+      <password>nexus</password> # Add your username and password
     </server>
   </servers>
 
@@ -30,7 +30,7 @@
       <id>mirrorId</id>
       <mirrorOf>repositoryId</mirrorOf>
       <name>*</name>
-      <url>Give public repo path from nexus</url> #Here add from nexus
+      <url>http://34.125.50.169:8081/repository/maven-public/</url> #Here add from nexus
     </mirror>
   </mirrors>
 
@@ -71,7 +71,7 @@
        <repository>
          <id>nexus-snapshot-repo</id>
          <name>your custom repo</name>
-         <url>Provide Snapshot link from nexus</url> #Here add from nexus
+         <url>http://34.125.50.169:8081/repository/maven-snapshots/</url> #Here add from nexus
        </repository>
 	   
      </repositories>
@@ -82,7 +82,7 @@
        <repository>
          <id>nexus-release-repo</id>
          <name>your custom repo</name>
-         <url>Provide Release link from nexus</url> #Here add from nexus
+         <url>http://34.125.50.169:8081/repository/maven-releases/</url> #Here add from nexus
        </repository>
      </repositories>
    </profile>
