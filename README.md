@@ -7,8 +7,11 @@ Here with the help of maven we will install nexus and use to store our artifacts
   
  By docker image we will pull one nexus image for this we need to install docker on that system.
     1.apt update
+    
     2.apt install docker.io
+    
     3.docker pull sonatype/nexus3:latest
+    
     4.By this one image will be pulled 
     5.docker image ls    -- will list the image with id
     6.Now we have to create one container from this image.
