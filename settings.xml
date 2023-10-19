@@ -1,92 +1,44 @@
-<?xml version="1.0" encoding="UTF-8"?>
-
-<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
-          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-          xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd">
-
-  <proxies>
-    <proxy>
-      <id>optional</id>
-      <active>true</active>
-      <protocol>http</protocol>
-      <username>proxyuser</username>
-      <password>proxypass</password>
-      <host>proxy.host.net</host>
-      <port>80</port>
-      <nonProxyHosts>local.net|some.host.com</nonProxyHosts>
-    </proxy>
-  </proxies>
-
-  <servers>
-    <server>
-      <id>nexusdeploymentrepo</id>
-      <username>admin</username>
-      <password>nexus</password> # Add your username and password
-    </server>
-  </servers>
-
+<settings>
   <mirrors>
     <mirror>
-      <id>mirrorId</id>
-      <mirrorOf>repositoryId</mirrorOf>
-      <name>*</name>
-      <url>http://34.125.50.169:8081/repository/maven-public/</url> #Here add from nexus
+      <!--This sends everything else to /public -->
+      <id>nexus</id>
+      <mirrorOf>*</mirrorOf>
+      <url>http://34.69.223.231:8081/repository/maven-public/</url>
     </mirror>
   </mirrors>
-
-  <profiles>
+    <servers>
+    <server>
+      <id>nexus</id>
+      <username>admin</username>
+      <password>admin123</password>
+    </server>
+  </servers>
+   <profiles>
     <profile>
-      <id>jdk-1.4</id>
-      <activation>
-        <jdk>1.4</jdk>
-      </activation>
+      <id>nexus</id>
+      <!--Enable snapshots for the built in central repo to direct -->
+      <!--all requests to nexus via the mirror -->
       <repositories>
         <repository>
-          <id>jdk14</id>
-          <name>Repository for JDK 1.4 builds</name>
-          <url>http://www.myhost.com/maven/jdk14</url>
-          <layout>default</layout>
-          <snapshotPolicy>always</snapshotPolicy>
+          <id>central</id>
+          <url>http://central</url>
+          <releases><enabled>true</enabled></releases>
+          <snapshots><enabled>true</enabled></snapshots>
         </repository>
       </repositories>
+     <pluginRepositories>
+        <pluginRepository>
+          <id>central</id>
+          <url>http://central</url>
+          <releases><enabled>true</enabled></releases>
+          <snapshots><enabled>true</enabled></snapshots>
+        </pluginRepository>
+      </pluginRepositories>
     </profile>
-    <profile>
-      <id>env-dev</id>
-
-      <activation>
-        <property>
-          <name>target-env</name>
-          <value>dev</value>
-        </property>
-      </activation>
-
-      <properties>
-        <tomcatPath>/path/to/tomcat/instance</tomcatPath>
-      </properties>
-    </profile>
-	
-	<profile>
-     <id>snapshot</id>
-     <repositories>
-       <repository>
-         <id>nexus-snapshot-repo</id>
-         <name>your custom repo</name>
-         <url>http://34.125.50.169:8081/repository/maven-snapshots/</url> #Here add from nexus
-       </repository>
-	   
-     </repositories>
-   </profile>
-    <profile>
-     <id>release</id>
-     <repositories>
-       <repository>
-         <id>nexus-release-repo</id>
-         <name>your custom repo</name>
-         <url>http://34.125.50.169:8081/repository/maven-releases/</url> #Here add from nexus
-       </repository>
-     </repositories>
-   </profile>
-    
   </profiles>
+  <activeProfiles>
+    <!--make the profile active all the time -->
+    <activeProfile>nexus</activeProfile>
+  </activeProfiles>
 </settings>
-   
